@@ -1,0 +1,53 @@
+package minesweeper;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class GameMenu{
+
+	public GameMenu(){
+		
+		JFrame jfrm = new JFrame("Minesweeper");
+		jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		jfrm.setLayout(new FlowLayout());
+		
+		jfrm.setSize(420, 400);
+		
+		JMenuBar jmb = new JMenuBar();
+		
+		JMenu jmGame = new JMenu("Game");
+		JMenuItem jmiNewGame = new JMenuItem("New Game");
+		JMenuItem jmiDifficulty = new JMenuItem("Change Difficulty...");
+		JMenuItem jmiExit = new JMenuItem("Exit");
+		
+		jmGame.add(jmiNewGame);
+		jmGame.add(jmiDifficulty);
+		jmGame.add(jmiExit);
+
+		JMenu jmOptions = new JMenu("Options");
+		
+		JMenu jmHelp = new JMenu("Help");
+		JMenuItem jmiAbout = new JMenuItem("About");
+		
+		jmHelp.add(jmiAbout);
+		
+		jmb.add(jmGame);	//add to menu bar
+		jmb.add(jmOptions); //
+		jmb.add(jmHelp);	//
+		
+		jfrm.setJMenuBar(jmb); //add menu bar to window
+		
+		jfrm.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		
+		SwingUtilities.invokeLater(new Runnable(){
+			public void run() {
+				new GameMenu();
+			}
+		});	
+	}
+}
