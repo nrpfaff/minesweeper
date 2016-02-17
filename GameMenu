@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GameMenu{
+public class GameMenu implements ActionListener {
 
 	public GameMenu(){
 		
@@ -19,29 +19,63 @@ public class GameMenu{
 		
 		JMenu jmGame = new JMenu("Game");
 		JMenuItem jmiNewGame = new JMenuItem("New Game");
-		JMenuItem jmiDifficulty = new JMenuItem("Change Difficulty...");
+		JMenuItem jmDifficulty = new JMenu("Change Difficulty...");
 		JMenuItem jmiExit = new JMenuItem("Exit");
 		
+		JRadioButtonMenuItem  jmiDiff1 = new JRadioButtonMenuItem("Beginner");
+		JRadioButtonMenuItem  jmiDiff2 = new JRadioButtonMenuItem("Normal", true);
+		JRadioButtonMenuItem  jmiDiff3 = new JRadioButtonMenuItem("Hard");
+		JRadioButtonMenuItem  jmiDiff4 = new JRadioButtonMenuItem("Expert");
+		
+		ButtonGroup bg = new ButtonGroup();
+		
+		bg.add(jmiDiff1);
+		bg.add(jmiDiff2);
+		bg.add(jmiDiff3);
+		bg.add(jmiDiff4);
+		
+		jmDifficulty.add(jmiDiff1);
+		jmDifficulty.add(jmiDiff2);
+		jmDifficulty.add(jmiDiff3);
+		jmDifficulty.add(jmiDiff4);
+	
 		jmGame.add(jmiNewGame);
-		jmGame.add(jmiDifficulty);
+		jmGame.add(jmDifficulty);
 		jmGame.add(jmiExit);
 
-		JMenu jmOptions = new JMenu("Options");
-		
 		JMenu jmHelp = new JMenu("Help");
 		JMenuItem jmiAbout = new JMenuItem("About");
 		
 		jmHelp.add(jmiAbout);
 		
 		jmb.add(jmGame);	//add to menu bar
-		jmb.add(jmOptions); //
 		jmb.add(jmHelp);	//
+		
+		
+		jmiExit.addActionListener(this);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		jfrm.setJMenuBar(jmb); //add menu bar to window
 		
 		jfrm.setVisible(true);
 	}
 	
+	public void actionPerformed(ActionEvent ae){
+		
+		String comStr = ae.getActionCommand();
+	
+		if(comStr.equals("Exit")) System.exit(0);
+		
+	}
+
 	public static void main(String[] args) {
 		
 		SwingUtilities.invokeLater(new Runnable(){
