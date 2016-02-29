@@ -1,12 +1,4 @@
 
-/*
- * Beginner: 9x9	10 bombs		R: 8.1
- * Normal:	11x11	20 bombs		R: 6.05
- * Hard: 13x22		50 bombs		R: 5.72
- * Expert: 16x30	100 bombs		R: 4.8
- * 
- */
-
 public class GameBoard {
 	
 	private int boardRow=9;
@@ -59,34 +51,12 @@ public class GameBoard {
 			}
 		}
 	}
-	public void printBoard(){
-		for(int i = 0; i < boardRow; i++){
-			for(int j =0; j < boardCol; j++){
-			
-				if(bombLocations[i][j]){
-					System.out.print("X ");
-				}
-				
-				else if(board[i][j] == 0){
-					System.out.print("  ");
-				}
-				else{
-					System.out.print(board[i][j] + " ");
-				}
-			}
-			System.out.println("");
-		}
-	}
-	
+
 	public GameBoard(){
 		setBoardRow(9);
 		setBoardCol(9);
-		setMaxBomb(10);
+		setMaxBombs(10);
 
-	}
-	
-	public int[][] getBoard(){
-		return board;
 	}
 	public void setBoardRow(int r){
 		boardRow = r;
@@ -94,7 +64,7 @@ public class GameBoard {
 	public void setBoardCol(int c){
 		boardCol = c;
 	}
-	public void setMaxBomb(int b){
+	public void setMaxBombs(int b){
 		maxBomb = b;
 	}
 	public int getBoardRow(){
@@ -105,5 +75,8 @@ public class GameBoard {
 	}
 	public int getMaxBombs(){
 		return maxBomb;
-	}	
+	}
+	public int[][] getBoard(){
+		return board;
+	}
 }
