@@ -5,22 +5,23 @@ import javax.swing.*;
 
 public class GameMenu extends GameBoard implements ActionListener {
 	
-	JFrame jfrm = new JFrame("Minesweeper");
-
+	ImageIcon none = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/empty.png");
+	
 	public GameMenu(GameBoard b){
+		JFrame jfrm = new JFrame("Minesweeper");
 		
 		jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		jfrm.setLayout(new GridLayout(b.getBoardRow()+2, b.getBoardRow()+2));
+		jfrm.setLayout(new FlowLayout());
 		
-		menuBarCreation();
-		gameBoardCreation(b);
+		jfrm.setJMenuBar(menuBarCreation());
+		jfrm.add(tempgameBoardCreation(b));
 		
 		jfrm.pack();
 		jfrm.setVisible(true);
 	}
 	
-	public void menuBarCreation(){
+	public JMenuBar menuBarCreation(){
 		
 		JMenuBar jmb = new JMenuBar();
 		
@@ -29,8 +30,8 @@ public class GameMenu extends GameBoard implements ActionListener {
 		JMenuItem jmDifficulty = new JMenu("Change Difficulty...");
 		JMenuItem jmiExit = new JMenuItem("Exit");
 		
-		JRadioButtonMenuItem  jmiDiff1 = new JRadioButtonMenuItem("Beginner");
-		JRadioButtonMenuItem  jmiDiff2 = new JRadioButtonMenuItem("Normal", true);
+		JRadioButtonMenuItem  jmiDiff1 = new JRadioButtonMenuItem("Beginner", true);
+		JRadioButtonMenuItem  jmiDiff2 = new JRadioButtonMenuItem("Normal");
 		JRadioButtonMenuItem  jmiDiff3 = new JRadioButtonMenuItem("Hard");
 		JRadioButtonMenuItem  jmiDiff4 = new JRadioButtonMenuItem("Expert");
 		
@@ -64,21 +65,21 @@ public class GameMenu extends GameBoard implements ActionListener {
 		jmiDiff3.addActionListener(this);
 		jmiDiff4.addActionListener(this);
 			
-		jfrm.setJMenuBar(jmb); //add menu bar to window
+		return jmb; //add menu bar to window
 	}
 	
-	public void gameBoardCreation(GameBoard b) {
+	public JPanel tempgameBoardCreation(GameBoard b) {
 		
-		ImageIcon b1 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/1.png");
-		ImageIcon b2 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/2.png");
-		ImageIcon b3 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/3.png");
-		ImageIcon b4 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/4.png");
-		ImageIcon b5 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/5.png");
-		ImageIcon b6 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/6.png");
-		ImageIcon b7 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/7.png");
-		ImageIcon b8 = new ImageIcon ("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/8.png");
-		ImageIcon none = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/empty.png");
-		ImageIcon mine = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/mine.png");
+		ImageIcon b1 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/1.png");
+		ImageIcon b2 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/2.png");
+		ImageIcon b3 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/3.png");
+		ImageIcon b4 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/4.png");
+		ImageIcon b5 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/5.png");
+		ImageIcon b6 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/6.png");
+		ImageIcon b7 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/7.png");
+		ImageIcon b8 = new ImageIcon ("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/8.png");
+		ImageIcon none = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/empty.png");
+		ImageIcon mine = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/mine.png");
 		
 		JPanel board = new JPanel(new GridLayout(b.getBoardRow(), b.getBoardCol(), 2, 2));
 		
@@ -129,16 +130,64 @@ public class GameMenu extends GameBoard implements ActionListener {
 	        }
 	    }//end for
 		
-	    jfrm.setContentPane(board);
+	    return board;
 		
 	}
 	
+	public JPanel gameBoardCreation(GameBoard b){
+		
+		ImageIcon space = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/tile.png");
+		
+		JPanel board = new JPanel(new GridLayout(b.getBoardRow(), b.getBoardCol()));
+		
+		JButton tile[][] = new JButton[b.getBoardRow()][b.getBoardCol()];
+		
+		for (int i = 0; i < b.getBoardRow(); i++) {
+	        for (int j = 0; j < b.getBoardCol(); j++) {
+	        	
+	        	tile[i][j] = new JButton(space);
+	        	tile[i][j].setBorder(null);
+	        	tile[i][j].addActionListener(this);
+	        	board.add(tile[i][j]);
+	   
+	        }
+		}
+		
+		return board;
+	}	
+
 	public void actionPerformed(ActionEvent ae){
 		
 		String comStr = ae.getActionCommand();
 	
+		if(comStr.equals("New Game")){
+
+		}
 		if(comStr.equals("Exit")){
 			System.exit(0);
+		}
+		if(comStr.equals("Beginner")){
+			this.setBoardRow(9);
+			this.setBoardCol(9);
+			this.setMaxBombs(10);
+		}
+		if(comStr.equals("Normal")){
+			this.setBoardRow(11);
+			this.setBoardCol(11);
+			this.setMaxBombs(20);
+		}
+		if(comStr.equals("Hard")){
+			this.setBoardRow(13);
+			this.setBoardCol(22);
+			this.setMaxBombs(50);
+		}
+		if(comStr.equals("Expert")){
+			this.setBoardRow(16);
+			this.setBoardCol(30);
+			this.setMaxBombs(99);
+		}
+		if( ae.getSource() instanceof JButton){
+		       ((JButton)ae.getSource()).setIcon(none);
 		}
 	}
 }
