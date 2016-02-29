@@ -1,19 +1,26 @@
-package minesweeper;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GameMenu implements ActionListener {
+public class GameMenu extends GameBoard implements ActionListener {
+	
+	JFrame jfrm = new JFrame("Minesweeper");
 
-	public GameMenu(){
+	public GameMenu(GameBoard b){
 		
-		JFrame jfrm = new JFrame("Minesweeper");
 		jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		jfrm.setLayout(new FlowLayout());
+		jfrm.setLayout(new GridLayout(b.getBoardRow()+2, b.getBoardRow()+2));
 		
-		jfrm.setSize(420, 400);
+		menuBarCreation();
+		gameBoardCreation(b);
+		
+		jfrm.pack();
+		jfrm.setVisible(true);
+	}
+	
+	public void menuBarCreation(){
 		
 		JMenuBar jmb = new JMenuBar();
 		
@@ -51,37 +58,87 @@ public class GameMenu implements ActionListener {
 		jmb.add(jmGame);	//add to menu bar
 		jmb.add(jmHelp);	//
 		
-		
 		jmiExit.addActionListener(this);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		jmiDiff1.addActionListener(this);
+		jmiDiff2.addActionListener(this);
+		jmiDiff3.addActionListener(this);
+		jmiDiff4.addActionListener(this);
+			
 		jfrm.setJMenuBar(jmb); //add menu bar to window
+	}
+	
+	public void gameBoardCreation(GameBoard b) {
 		
-		jfrm.setVisible(true);
+		ImageIcon b1 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/1.png");
+		ImageIcon b2 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/2.png");
+		ImageIcon b3 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/3.png");
+		ImageIcon b4 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/4.png");
+		ImageIcon b5 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/5.png");
+		ImageIcon b6 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/6.png");
+		ImageIcon b7 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/7.png");
+		ImageIcon b8 = new ImageIcon ("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/8.png");
+		ImageIcon none = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/empty.png");
+		ImageIcon mine = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/MinesweeperTest/resources/mine.png");
+		
+		JPanel board = new JPanel(new GridLayout(b.getBoardRow(), b.getBoardCol(), 2, 2));
+		
+	    for (int i = 0; i < b.getBoardRow(); i++) {
+	        for (int j = 0; j < b.getBoardCol(); j++) {
+	        	switch(b.getBoard()[i][j]){
+		        	case 1:{
+		        		board.add(new JLabel(b1, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 2: {
+		        		board.add(new JLabel(b2, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 3: {
+		        		board.add(new JLabel(b3, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 4: {
+		        		board.add(new JLabel(b4, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 5: {
+		        		board.add(new JLabel(b5, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 6: {
+		        		board.add(new JLabel(b6, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 7: {
+		        		board.add(new JLabel(b7, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 8: {
+		        		board.add(new JLabel(b8, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 9: {
+		        		board.add(new JLabel(mine, JLabel.CENTER));
+		        		break;
+		        	}
+		        	case 0: {
+		        		board.add(new JLabel(none, JLabel.CENTER));
+		        		break;
+		        	}
+	        	}//end switch
+	        }
+	    }//end for
+		
+	    jfrm.setContentPane(board);
+		
 	}
 	
 	public void actionPerformed(ActionEvent ae){
 		
 		String comStr = ae.getActionCommand();
 	
-		if(comStr.equals("Exit")) System.exit(0);
-		
-	}
-
-	public static void main(String[] args) {
-		
-		SwingUtilities.invokeLater(new Runnable(){
-			public void run() {
-				new GameMenu();
-			}
-		});	
+		if(comStr.equals("Exit")){
+			System.exit(0);
+		}
 	}
 }
