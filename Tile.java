@@ -1,37 +1,39 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class Tile implements ActionListener {
+public class Tile {
 
 	private int value;
 	private ImageIcon img;
 	private JButton btn;
 	private boolean bomb;
+	private boolean click;
+	private boolean flag;
 	
-	private ImageIcon space = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/tile.png");
-	private ImageIcon b1 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/1.png");
-	private ImageIcon b2 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/2.png");
-	private ImageIcon b3 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/3.png");
-	private ImageIcon b4 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/4.png");
-	private ImageIcon b5 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/5.png");
-	private ImageIcon b6 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/6.png");
-	private ImageIcon b7 = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/7.png");
-	private ImageIcon b8 = new ImageIcon ("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/8.png");
-	private ImageIcon none = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/empty.png");
-	private ImageIcon mine = new ImageIcon("C:/Users/Nolan/workspace/CompSci220/Minesweeper/resources/mine.png");
+	private ImageIcon space = new ImageIcon("resources/tile.png");
+	private ImageIcon b1 = new ImageIcon("resources/1.png");
+	private ImageIcon b2 = new ImageIcon("resources/2.png");
+	private ImageIcon b3 = new ImageIcon("resources/3.png");
+	private ImageIcon b4 = new ImageIcon("resources/4.png");
+	private ImageIcon b5 = new ImageIcon("resources/5.png");
+	private ImageIcon b6 = new ImageIcon("resources/6.png");
+	private ImageIcon b7 = new ImageIcon("resources/7.png");
+	private ImageIcon b8 = new ImageIcon ("resources/8.png");
+	private ImageIcon none = new ImageIcon("resources/empty.png");
+	private ImageIcon mine = new ImageIcon("resources/mine.png");
 	
-	public Tile(){
+	public Tile(int i,int j){
 		this.setValue(0);
 		JButton btn = new JButton();
 		btn.setIcon(space);
 		btn.setBorder(null);
-		btn.addActionListener(this);
+		
 		this.setButton(btn);
 		this.setBomb(false);
-		
+		this.setClick(false);
+		this.setFlag(false);
 	}
+	
 	public void setValue(int v){
 		this.value = v;
 	}
@@ -87,6 +89,12 @@ public class Tile implements ActionListener {
 	public void setBomb(Boolean b){
 		bomb = b;
 	}
+	public void setClick(boolean b){
+		click = b;
+	}
+	public void setFlag(Boolean b){
+		flag = b;
+	}
 	public int getValue(){
 		return this.value;
 	}
@@ -99,12 +107,18 @@ public class Tile implements ActionListener {
 	public boolean isBomb(){
 		return bomb;
 	}
-	public void actionPerformed(ActionEvent ae) {
-		if( ae.getSource() instanceof JButton){
-		       ((JButton)ae.getSource()).setIcon(none);
-		       System.out.println("Button pressed");
-		       ((JButton)ae.getSource()).setEnabled(false);
+	public boolean isSpace(){
+		if(this.value == 0){
+			return true;
 		}
-		
+		else{
+			return false;
+		}
+	}
+	public boolean isClicked(){
+		return click;
+	}
+	public boolean isFlagged(){
+		return flag;
 	}
 }
