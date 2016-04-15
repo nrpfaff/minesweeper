@@ -1,34 +1,31 @@
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class Tile {
-
+public class Tile extends JButton{
+	
+	private static ImageIcon space = new ImageIcon("resources/tile.png");
+	private static ImageIcon b1 = new ImageIcon("resources/1.png");
+	private static ImageIcon b2 = new ImageIcon("resources/2.png");
+	private static ImageIcon b3 = new ImageIcon("resources/3.png");
+	private static ImageIcon b4 = new ImageIcon("resources/4.png");
+	private static ImageIcon b5 = new ImageIcon("resources/5.png");
+	private static ImageIcon b6 = new ImageIcon("resources/6.png");
+	private static ImageIcon b7 = new ImageIcon("resources/7.png");
+	private static ImageIcon b8 = new ImageIcon ("resources/8.png");
+	private static ImageIcon none = new ImageIcon("resources/empty.png");
+	private static ImageIcon mine = new ImageIcon("resources/mine.png");
+	
 	private int value;
 	private ImageIcon img;
-	private JButton btn;
 	private boolean bomb;
 	private boolean click;
 	private boolean flag;
 	
-	private ImageIcon space = new ImageIcon("resources/tile.png");
-	private ImageIcon b1 = new ImageIcon("resources/1.png");
-	private ImageIcon b2 = new ImageIcon("resources/2.png");
-	private ImageIcon b3 = new ImageIcon("resources/3.png");
-	private ImageIcon b4 = new ImageIcon("resources/4.png");
-	private ImageIcon b5 = new ImageIcon("resources/5.png");
-	private ImageIcon b6 = new ImageIcon("resources/6.png");
-	private ImageIcon b7 = new ImageIcon("resources/7.png");
-	private ImageIcon b8 = new ImageIcon ("resources/8.png");
-	private ImageIcon none = new ImageIcon("resources/empty.png");
-	private ImageIcon mine = new ImageIcon("resources/mine.png");
-	
-	public Tile(int i,int j){
+	public Tile(int i, int j){
 		this.setValue(0);
-		JButton btn = new JButton();
-		btn.setIcon(space);
-		btn.setBorder(null);
+		this.setIcon(space);
+		this.setBorder(null);
 		
-		this.setButton(btn);
 		this.setBomb(false);
 		this.setClick(false);
 		this.setFlag(false);
@@ -37,6 +34,16 @@ public class Tile {
 	public void setValue(int v){
 		this.value = v;
 	}
+	public void setBomb(Boolean b){
+		bomb = b;
+	}
+	public void setClick(boolean b){
+		click = b;
+	}
+	public void setFlag(Boolean b){
+		flag = b;
+	}
+	
 	public void setImage(int v){
 		if(this.isBomb()){
 			img = mine;
@@ -83,26 +90,12 @@ public class Tile {
 			}//end switch
 		}
 	}
-	public void setButton(JButton b){
-	    btn = b;
-	}
-	public void setBomb(Boolean b){
-		bomb = b;
-	}
-	public void setClick(boolean b){
-		click = b;
-	}
-	public void setFlag(Boolean b){
-		flag = b;
-	}
+	
 	public int getValue(){
 		return this.value;
 	}
 	public ImageIcon getImage(){
 		return img;
-	}
-	public JButton getButton(){
-		return btn;
 	}
 	public boolean isBomb(){
 		return bomb;

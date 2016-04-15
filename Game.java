@@ -1,24 +1,30 @@
+
 import javax.swing.SwingUtilities;
 
-public class Game {
+public class Game{
+
+	private int[] difficulty = new int[3];
+	private Board board;
 	
-	private int[] diff;
-	
-	public Game(){
-	
+	public Game(int r, int c, int b){
+		setDifficulty(r, c, b);
 	}
-	public boolean gameStart(){
+	
+	public void setDifficulty(int r, int c, int b){
+		difficulty[0] = r;
+		difficulty[1] = c;
+		difficulty[2] = b;
+	}
+	
+	public void gameStart(){
+		
+		board = new Board(difficulty[0], difficulty[1], difficulty[2]);
+		board.createBoard();
+		
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run() {
-				new GameWindow();
+				new GameWindow(board);
 			}
 		});
-		return false;
 	}
-	public void setDifficulty(){
-		int diff[] = {9, 9, 10};
-	}
-	public int[] getDifficulty(){
-		return diff;
-	}	
 }
