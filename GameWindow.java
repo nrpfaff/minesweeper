@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 public class GameWindow extends JFrame implements ActionListener{
 	
-	Board board;
+	private Board board;
 
 	public GameWindow(Board b){
 		
@@ -26,6 +26,7 @@ public class GameWindow extends JFrame implements ActionListener{
 		this.add(b);
 		
 		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 	
@@ -73,15 +74,14 @@ public class GameWindow extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent ae){
 
-		String comStr = ae.getActionCommand();
+		String comStr = ae.getActionCommand(); //gets text on menu item
 		
 		if(comStr.equals("About")){
-			System.out.println("About clicked");
 			JOptionPane.showMessageDialog(this, 
-					"Created by Nolan Pfaff as a Spring 2016 H-Option. \n\n"
+					"Created by Nolan Pfaff as a Spring 2016 H-Option. Images were obtained from online.\n\n"
 					+ "Left clicking on a tile will open it and display the number of mines adjacent to it. Click on a bomb and you lose!\n"
 					+ "Right clicking on a tile will flag it and prevent it from being clicked. Use this to mark where you think the mines are!\n"
-					+ "Win by clicking every non-mine tile!");
+					+ "Win by clicking every non-mine tile! Custom game size limits are (3 - 24) x (7 - 30).");
 		}
 		if(comStr.equals("New Game")){
 			this.dispose();
@@ -119,6 +119,7 @@ public class GameWindow extends JFrame implements ActionListener{
 			d.add(Box.createHorizontalStrut(15)); // a spacer
 			d.add(new JLabel("Colums: "));
 			d.add(cols);
+			d.add(Box.createHorizontalStrut(15));
 			d.add(new JLabel("Mines: "));
 			d.add(bomb);
 
@@ -141,7 +142,7 @@ public class GameWindow extends JFrame implements ActionListener{
 				if((r-1)*(c-1) < b){
 					JOptionPane.showMessageDialog(this, "Unable to create board with those dimensions and number of mines!");
 				}
-				else if(r <= 0 || c <= 0 || b <= 0){
+				else if(r <= 2 || c <= 6 || b <= 0 || r > 24 || c > 30){
 					JOptionPane.showMessageDialog(this, "Unable to create board with those dimensions and number of mines!");
 				}
 				else{

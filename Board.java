@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -15,6 +16,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	private int maxBomb;
 	private int maxClicks;
 	private int numClicks;
+	private boolean bombClick;
 	
 	private Tile[][] tiles;
 	
@@ -27,6 +29,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		maxBomb = b;
 		maxClicks = boardRow * boardCol - maxBomb;
 		numClicks = 0;
+		bombClick = false;
 		tiles = new Tile[r][c];
 	}
 	
@@ -41,7 +44,7 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 	}
 
 	public void createBoard() {
-		clearBoard();
+		initBoard();
 		placeBombs();
 		bombLocator();
 		imageAssign();
@@ -55,11 +58,10 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		}
 	}
 	
-	public void clearBoard(){
+	public void initBoard(){
 		for(int i = 0; i < boardRow; i++){
 			for(int j =0; j < boardCol; j++){
-		    		Tile t = new Tile(i, j);
-					tiles[i][j] = t;
+					tiles[i][j] = new Tile();;
 			}
 		}
 	}
@@ -71,30 +73,29 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			for(int i = 0; i < boardRow; i++){
 				for(int j =0; j < boardCol; j++){
 					int rand = (int)Math.ceil(Math.random()*1000);
-					if(rand > 950){
+					if(rand > 985){
 						tiles[i][j].setBomb(true);
 						tiles[i][j].setValue(9);
-						nBomb += 1;
-						if(nBomb == maxBomb){
+						if(++nBomb == maxBomb){
 							break loop;
 						}
 					}
 				}
 			}
-		}//end loop
+		}
 	}
 	
 	public void bombLocator(){
 		for(int i = 0; i < boardRow; i++){ //loop for row transversal
 			for(int j = 0; j < boardCol; j++){ //loop for column transversal
 				if(tiles[i][j].isBomb()){ //if there is a bomb at this location
-					for(int r = i-1; r < i+2; r++){//goes to the previous row, 3 long
-						for(int s = j-1; s < j+2; s++){//goes to the previous column, 3 long
+					for(int r = i-1; r < i+2; r++){//goes to the previous row, checks only 3 rows
+						for(int s = j-1; s < j+2; s++){//goes to the previous column, checks only 3 columns
 							try{
 								if(!tiles[r][s].isBomb()){
 									tiles[r][s].setValue(tiles[r][s].getValue()+ 1);
 								}	
-							} catch(IndexOutOfBoundsException e){}
+							} catch(IndexOutOfBoundsException e){} //
 						}
 					}
 				}
@@ -110,7 +111,6 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 				tiles[i][j].addActionListener(this);
 				tiles[i][j].setActionCommand(i+" "+j);
 				tiles[i][j].setDisabledIcon(tiles[i][j].getImage());
-
 			}
 		}
 	}
@@ -136,10 +136,16 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		for(int i = 0; i < boardRow; i++){
 			for(int j =0; j < boardCol; j++){
 				tiles[i][j].setClick(true);
-				if(tiles[i][j].isBomb()){
+				if(tiles[i][j].isBomb() && bombClick){
 					tiles[i][j].setEnabled(false);
 				}
 			}
+		}
+		if(bombClick){
+			JOptionPane.showMessageDialog(null, "Game over! You clicked a bomb!");
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Game won! Congratulations!");
 		}
 	}
 	
@@ -150,14 +156,13 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 		int y = Integer.parseInt(a[1]);
 
 		if (SwingUtilities.isRightMouseButton(e)){
-			System.out.println("Right mouse clicked.");
-			if(!tiles[x][y].isClicked()){ //if button is not clicked
-				if(!tiles[x][y].isFlagged()){ //if button is not flagged
+			if(!tiles[x][y].isClicked()){ 
+				if(!tiles[x][y].isFlagged()){
 					tiles[x][y].setDisabledIcon(flag);
 					tiles[x][y].setEnabled(false);
 					tiles[x][y].setFlag(true);
 				}
-				else if(tiles[x][y].isFlagged()){ //if button is flagged
+				else if(tiles[x][y].isFlagged()){
 					tiles[x][y].setDisabledIcon(tiles[x][y].getImage());
 					tiles[x][y].setEnabled(true);
 					tiles[x][y].setFlag(false);
@@ -165,24 +170,21 @@ public class Board extends JPanel implements ActionListener, MouseListener{
 			}
 		}
 		if (SwingUtilities.isLeftMouseButton(e)) {
-			System.out.println("Left mouse clicked.");
 			if(!tiles[x][y].isFlagged() && !tiles[x][y].isClicked()){
 				tiles[x][y].setClick(true);
 				if(tiles[x][y].isBomb()){
 					tiles[x][y].setDisabledIcon(mineex);
+					bombClick = true;
 					gameEnd();
-					System.out.println("Game over.");
 				}
 				if(tiles[x][y].isSpace()){
 					clickEmpty(x, y);
 				}
 				if( e.getSource() instanceof JButton){
 					numClicks++;
-					System.out.println(numClicks + " buttons pressed");
 					tiles[x][y].setEnabled(false);
 				}
 				if(numClicks  == maxClicks){
-					System.out.println("Game won!");
 					gameEnd();	
 				}
 			}

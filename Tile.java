@@ -21,7 +21,7 @@ public class Tile extends JButton{
 	private boolean click;
 	private boolean flag;
 	
-	public Tile(int i, int j){
+	public Tile(){
 		this.setValue(0);
 		this.setIcon(space);
 		this.setBorder(null);
@@ -50,6 +50,10 @@ public class Tile extends JButton{
 		}
 		else{
 			switch(v){
+			case 0: {
+				img = none;
+				break;
+			}
 			case 1:{
 				img = b1;
 				break;
@@ -82,11 +86,6 @@ public class Tile extends JButton{
 				img = b8;
 				break;
 			}
-
-			case 0: {
-				img = none;
-				break;
-			}
 			}//end switch
 		}
 	}
@@ -101,12 +100,7 @@ public class Tile extends JButton{
 		return bomb;
 	}
 	public boolean isSpace(){
-		if(this.value == 0){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return (this.value == 0);
 	}
 	public boolean isClicked(){
 		return click;
